@@ -17,17 +17,13 @@
                 <input type="text" id="txtMensaje" placeholder="Mensaje" class="form-control">
             </div>
             <div class="col-4">
-                <button class="btn btn-primary">Enviar</button>
+                <button type="submit" class="btn btn-primary">Enviar</button>
             </div>
         </div>
 
         <div class="row">
             <div class="col">
-                <ul id="misMensajes">
-                    <li>A</li>
-                    <li>B</li>
-                    <li>C</li>
-                </ul>
+                <ul id="misMensajes"/>
             </div>
         </div>
 
@@ -40,9 +36,24 @@
         //* Referencias al html
         const formulario = document.querySelector('#miFormulario');
         const mensajes = document.querySelector('#misMensajes');
+        const txtMensajes = document.querySelector('#txtMensaje');
+
+        formulario.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nuevoMensaje = txtMensajes.value;
+
+            socket.emit('mensaje-tx',{
+                texto: nuevoMensaje
+            })
+        })
+
+        socket.on('mensaje-desde-server', (data) => {
+            console.log('esto lo envio el server a los clientes', data);
+            mensajes.innerHTML += `<li>${data.texto}</li>`
+        });
 
 
-        socket.on('mensaje-bienvenida', (data) => console.log('server emitio algo', data));
+        // socket.on('mensaje-bienvenida', (data) => console.log('server emitio algo', data));
 
         // setTimeout(() => {
         //     socket.emit('mensaje-tx', {
