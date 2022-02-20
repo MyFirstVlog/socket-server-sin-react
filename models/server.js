@@ -7,7 +7,7 @@ const cors = require('cors');
 class Server {
     constructor() {
         this.app = express();
-        this.port = process.env.PORT_CONNECTION;
+        this.port = process.env.PORT;
 
         //?Http server
         this.server = http.createServer(this.app);
@@ -32,7 +32,7 @@ class Server {
         //?Inicializar sockets
         this.configurarSockets();
         //?Inicializar el server
-        this.server.listen(this.port, () => console.log('Server corriendo en el puerto 8080'));
+        this.server.listen((this.port || 3000), () => console.log('Server corriendo en el puerto 8080'));
     }
 }
 
