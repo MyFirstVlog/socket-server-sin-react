@@ -27,6 +27,8 @@ class Sockets{
                 const suTicket = this.ticketList.assignTicket(agente, escritorio);
 
                 callback(suTicket);
+
+                this.io.emit('ticket-asignado', this.ticketList.ultimos13)
             })
         });
     }

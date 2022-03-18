@@ -15,23 +15,32 @@ class Server {
         //? Configuraciones de sockets
 
         this.io = socketio(this.server,{/*Configuraciones*/});
+
+        //? Inicializar sockets
+        this.sockets = new Sockets(this.io);
     }
 
     middlewares(){
         this.app.use(express.static(path.resolve(__dirname, '../public' )));
         this.app.use(cors());
+        this.app.get('/ultimos',(req, res) => {
+            res.json({
+                ok: true,
+                ultimos: this.sockets.ticketList.ultimos13
+            })
+        })
     }
 
-    configurarSockets(){
-        //????
-        new Sockets(this.io);
-    }
+    // configurarSockets(){
+    //     //????
+    //     new Sockets(this.io);
+    // }
 
     execute(){
         //?Inciailizar middlewares
         this.middlewares();
         //?Inicializar sockets
-        this.configurarSockets();
+        // this.configurarSockets();
         //?Inicializar el server
         this.server.listen((this.port || 3000), () => console.log('Server corriendo en el puerto 8080'));
     }
